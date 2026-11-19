@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guia de Estudo STC</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#172235;--muted:#66758b;--line:#e3e8f0;--accent:#295d91;--green:#26965c;--orange:#df8c39}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:960px;margin:auto;padding:22px 16px 48px}.hero{background:linear-gradient(135deg,#173b63,#2d6e9e);color:white;border-radius:22px;padding:24px;margin-bottom:16px}.hero h1{margin:0 0 5px;font-size:26px}.hero p{margin:0;opacity:.9}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:14px;box-shadow:0 2px 10px #152b4610}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.stat .label{color:var(--muted);font-size:13px}.stat strong{display:block;font-size:28px;margin-top:4px}.progress{height:12px;background:#e9edf3;border-radius:99px;overflow:hidden;margin:12px 0 6px}.bar{height:100%;width:0;background:var(--green);transition:width .2s}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.task{border:1px solid var(--line);padding:13px;border-radius:13px;margin:10px 0}.task .day{font-size:13px;color:var(--muted);font-weight:650}.task .subject{font-weight:700;margin:2px 0 8px}.task label{display:flex;align-items:center;gap:9px;cursor:pointer}.task input[type=checkbox]{width:20px;height:20px;accent-color:var(--green)}.done{opacity:.65}.done .subject{text-decoration:line-through}textarea,input{font:inherit;border:1px solid var(--line);border-radius:10px;padding:10px;width:100%;background:white;color:var(--ink)}textarea{min-height:90px;resize:vertical}.small{color:var(--muted);font-size:13px}button{border:0;border-radius:11px;padding:11px 14px;background:var(--accent);color:white;font-weight:700;cursor:pointer}button.secondary{background:#e9eef5;color:#24425f}button.danger{background:#f4e5e2;color:#8a3426}.actions{display:flex;gap:8px;flex-wrap:wrap}.subject-progress{margin:10px 0}.subject-progress .row{font-size:14px}.subject-progress .progress{height:8px;margin:6px 0}.footer{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.formgrid .full{grid-column:1/-1}.entry{border:1px solid var(--line);border-radius:13px;padding:13px;margin:10px 0}.entry h3{margin:0 0 7px;font-size:16px}.entry p{margin:6px 0}.entry-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.entry-actions button{padding:8px 10px;font-size:13px}.review-due{border-left:4px solid var(--orange);padding-left:10px}.@media(max-width:600px){.formgrid{grid-template-columns:1fr}.formgrid .full{grid-column:auto}.grid{grid-template-columns:1fr 1fr}.hero h1{font-size:22px}.wrap{padding:14px 12px 34px}}
+</style>
+</head>
+<body><main class="wrap">
+<section class="hero"><h1>📚 Guia de Estudo STC</h1><p>Concurso Unificado Maranhão · Auditor de Engenharia · Código 33 · FCC</p></section>
+<section class="card"><h2 style="margin-top:0;font-size:19px">🎯 Plano oficial de preparação</h2><div class="grid"><div class="entry"><strong>Início dos estudos</strong><p style="margin-bottom:0">Segunda-feira, 23/11/2026</p></div><div class="entry"><strong>Meta de conclusão do conteúdo</strong><p style="margin-bottom:0">14/03/2027</p></div><div class="entry"><strong>Fase final de revisão</strong><p style="margin-bottom:0">15/03 a 03/04/2027</p></div><div class="entry"><strong>Prova prevista</strong><p style="margin-bottom:0">04/04/2027</p></div></div><p><strong>Carga planejada:</strong> 6 sessões por semana, aproximadamente 1h–1h30 por sessão (8–9h semanais). Domingo é descanso.</p><div class="entry"><strong>Fase 1 · 23/11–20/12:</strong> construção da base<br><strong>Fase 2 · 21/12–17/01:</strong> desenvolvimento<br><strong>Fase 3 · 18/01–14/02:</strong> consolidação<br><strong>Fase 4 · 15/02–14/03:</strong> finalização da primeira cobertura do edital<br><strong>Fase 5 · 15/03–03/04:</strong> revisão final, simulados, caderno de erros e discursivas — sem conteúdo novo planejado.</div><p class="small" id="phaseStatus"></p></section>
+<section class="card"><div class="row"><h2 style="margin:0;font-size:19px">Progresso da semana</h2><strong id="pct">0%</strong></div><div class="progress"><div class="bar" id="bar"></div></div><div class="small" id="weekCount">0 de 6 atividades concluídas</div></section>
+<section class="grid"><div class="card stat"><span class="label">Atividades concluídas</span><strong id="doneCount">0</strong></div><div class="card stat"><span class="label">Questões registradas</span><strong id="qCount">0</strong></div></section>
+<section class="card"><h2 style="margin-top:0;font-size:19px">📅 Cronograma detalhado por data e assunto</h2><p class="small">Selecione a semana para ver o tema exato de cada dia. Cada sessão inclui estudo dirigido e questões de fixação; tópicos extensos têm mais de uma sessão ou são divididos em partes.</p><div class="formgrid"><div class="full"><label class="small" for="planWeek">Semana do cronograma</label><select id="planWeek"></select></div></div><div id="detailPlan"></div></section>
+<section class="card"><h2 style="margin-top:0;font-size:19px">🗓️ Cronograma semanal oficial</h2><p class="small">Uma disciplina principal por dia. O cronograma detalhado define o assunto de cada data. Em todas as sessões: estudo dirigido, exemplos e questões; tópicos extensos são divididos em partes.</p><p class="small"><strong>Em cada sessão:</strong> teoria do tema programado + exemplos + 5–10 questões de fixação. Em sessões de consolidação e simulados, o volume de questões será maior. O cronograma detalhado traz o tema exato de cada data. Em Semana A, foco em teoria e 5–10 questões; em Semana B, o mesmo formato de estudo do tema com volume maior de questões (15–20) e correção. O conteúdo diário continua programado, sem deixar matérias paradas.</p><div class="formgrid"><div><label class="small">Ciclo da semana</label><select id="cycle"><option value="A">Semana A — Teoria + fixação</option><option value="B">Semana B — Teoria + prática ampliada</option></select></div><div><label class="small">Rodízio de sábado</label><select id="satRotation"><option>Informática</option><option>Inglês Técnico</option><option>Discursiva / Estudo de Caso</option><option>Simulado parcial</option><option>Revisão geral / recuperação</option></select></div></div><div id="tasks"></div><h3>Estrutura do ciclo</h3><div class="entry"><strong>Semana A:</strong> 40–50 min de estudo teórico do tema programado, exemplos e 5–10 questões de fixação.<br><strong>Semana B:</strong> estudo do tema programado, exemplos e 15–20 questões, correção detalhada, caderno de erros e revisão programada.</div></section>
+<section class="card"><h2 style="margin-top:0;font-size:19px">📊 Progresso por disciplina</h2><div id="subjects"></div><p class="small">Nesta versão, o progresso é calculado pelas atividades semanais marcadas. A porcentagem completa do edital será adicionada quando cadastrarmos os tópicos de cada disciplina.</p></section>
+<section class="card"><h2 style="margin-top:0;font-size:19px">✏️ Registro de estudo</h2><label class="small" for="questions">Questões resolvidas (total da semana)</label><input id="questions" type="number" min="0" placeholder="Ex.: 20"><p><label class="small" for="notes">Observações / o que estudou</label></p><textarea id="notes" placeholder="Ex.: Estudei crase; fiquei com dúvida em casos facultativos..."></textarea><div class="actions" style="margin-top:12px"><button id="save">Salvar registro</button><button class="secondary" id="export">Exportar backup</button><button class="danger" id="reset">Reiniciar semana</button></div><p id="saved" class="small"></p></section>
+
+<section class="card"><h2 style="margin-top:0;font-size:19px">📕 Caderno de erros</h2><p class="small">Registre erros importantes, o motivo e o aprendizado. A questão pode ser copiada ou resumida.</p>
+<div class="formgrid">
+<div><label class="small">Disciplina</label><select id="errSubject"><option>Português</option><option>Matemática e Raciocínio Lógico</option><option>História e Geografia do Maranhão</option><option>Informática</option><option>Auditoria, Controle e Fiscalização</option><option>Auditoria de Obras e Engenharia</option><option>Inglês Técnico</option><option>Discursiva / Estudo de Caso</option></select></div>
+<div><label class="small">Assunto / tópico</label><input id="errTopic" placeholder="Ex.: Crase, BDI, COSO..." /></div>
+<div class="full"><label class="small">Questão (enunciado, alternativas ou resumo)</label><textarea id="errQuestion" placeholder="Cole ou resuma a questão que errou"></textarea></div>
+<div><label class="small">Minha resposta</label><input id="errMyAnswer" placeholder="Ex.: alternativa B" /></div><div><label class="small">Resposta correta</label><input id="errCorrect" placeholder="Ex.: alternativa D" /></div>
+<div><label class="small">Motivo do erro</label><select id="errReason"><option>Falta de conhecimento</option><option>Interpretação</option><option>Desatenção</option><option>Erro de cálculo</option><option>Confusão normativa / legislação</option><option>Dúvida entre alternativas</option><option>Erro de procedimento</option><option>Outro</option></select></div>
+<div><label class="small">Data para revisão</label><input id="errReviewDate" type="date" /></div>
+<div class="full"><label class="small">O que aprendi / como evitar esse erro novamente</label><textarea id="errLesson" placeholder="Explique o conceito correto com suas palavras"></textarea></div>
+</div><div class="actions" style="margin-top:10px"><button id="addError">Adicionar ao caderno</button></div><div id="errorsList"></div></section>
+<section class="card"><h2 style="margin-top:0;font-size:19px">📝 Simulados</h2><p class="small">Registre simulados parciais ou gerais e acompanhe a evolução. Começaremos pequenos e aumentaremos gradualmente.</p><div class="formgrid"><div><label class="small">Data</label><input id="simDate" type="date"></div><div><label class="small">Tipo</label><select id="simType"><option>Simulado parcial</option><option>Por disciplina</option><option>Simulado geral</option><option>Mini-simulado</option></select></div><div><label class="small">Questões</label><input id="simTotal" type="number" min="1" placeholder="Total"></div><div><label class="small">Acertos</label><input id="simCorrect" type="number" min="0" placeholder="Acertos"></div><div><label class="small">Tempo (minutos)</label><input id="simTime" type="number" min="0" placeholder="Tempo gasto"></div><div><label class="small">Disciplina / foco</label><input id="simFocus" placeholder="Ex.: Auditoria de Obras"></div><div class="full"><label class="small">Análise do simulado</label><textarea id="simNotes" placeholder="Dificuldades, assuntos com baixo desempenho, erros recorrentes e próximos passos"></textarea></div></div><div class="actions" style="margin-top:10px"><button id="addSim">Registrar simulado</button></div><div id="simList"></div></section>
+<section class="card"><h2 style="margin-top:0;font-size:19px">🔄 Revisões programadas</h2><p class="small">Cadastre assuntos para rever. O sistema mostra revisões vencidas e próximas.</p>
+<div class="formgrid"><div><label class="small">Disciplina</label><select id="revSubject"><option>Português</option><option>Matemática e Raciocínio Lógico</option><option>História e Geografia do Maranhão</option><option>Informática</option><option>Auditoria, Controle e Fiscalização</option><option>Auditoria de Obras e Engenharia</option><option>Inglês Técnico</option><option>Discursiva / Estudo de Caso</option></select></div><div><label class="small">Assunto</label><input id="revTopic" placeholder="Tópico para revisar" /></div><div><label class="small">Data da revisão</label><input id="revDate" type="date" /></div><div><label class="small">Tipo</label><select id="revType"><option>D+1</option><option>D+7</option><option>D+14</option><option>D+30</option><option>Revisão livre</option></select></div></div><div class="actions" style="margin-top:10px"><button id="addReview">Agendar revisão</button></div><div id="reviewsList"></div></section>
+<div class="footer">Guia de Estudo STC · Dados salvos neste navegador/dispositivo. Faça exportação de backup para guardar uma cópia. A semana reinicia automaticamente nas segundas-feiras; erros, revisões e simulados são preservados.</div>
+</main>
+<script>
+const START_DATE='2026-11-23';const CONTENT_END='2027-03-14';const EXAM_DATE='2027-04-04';
+const tasks=[
+ {day:'Segunda-feira',subject:'Língua Portuguesa',icon:'📖'},
+ {day:'Terça-feira',subject:'Matemática e Raciocínio Lógico',icon:'🧮'},
+ {day:'Quarta-feira',subject:'Auditoria, Controle e Fiscalização',icon:'🔎'},
+ {day:'Quinta-feira',subject:'Auditoria de Obras e Engenharia',icon:'🏗️'},
+ {day:'Sexta-feira',subject:'História e Geografia do Maranhão',icon:'🌎'},
+ {day:'Sábado',subject:'Complementar',icon:'🔁'}
+];
+const schedule=[
+ {week:'23–28 nov',dates:['23/11','24/11','25/11','26/11','27/11','28/11'],topics:[
+ 'Interpretação I: tema, ideia central, finalidade do texto e informações explícitas. Teoria + 5–10 questões.',
+ 'Raciocínio relacional: relações entre pessoas, lugares, objetos e acontecimentos; representação e dedução. Teoria + exercícios.',
+ 'Fundamentos da auditoria: conceito, objetivos, finalidade, tipos e classificações. Teoria + 5–10 questões.',
+ 'Obras públicas: conceitos, ciclo da obra, etapas e planejamento inicial. Teoria + exemplos + questões.',
+ 'Maranhão: localização, limites, divisão territorial e formação do território. Teoria + questões.',
+ 'Informática: hardware, software, periféricos, sistemas e conceitos básicos. Teoria + questões.' ]},
+ {week:'30 nov–5 dez',dates:['30/11','01/12','02/12','03/12','04/12','05/12'],topics:[
+ 'Interpretação II: inferências, informações implícitas, pressupostos, subentendidos e conclusões. Teoria + questões.',
+ 'Condições e consequências: proposições condicionais, relações lógicas e deduções. Teoria + exercícios.',
+ 'Princípios da auditoria: independência, ética, objetividade, ceticismo e julgamento profissional. Teoria + questões.',
+ 'Estudos preliminares, projetos, memoriais, especificações e documentos técnicos. Teoria + questões.',
+ 'Geografia física I: relevo, clima e solos maranhenses. Teoria + questões.',
+ 'Inglês Técnico: estratégias de leitura, cognatos, falsos cognatos e vocabulário geral de engenharia.' ]},
+ {week:'7–12 dez',dates:['07/12','08/12','09/12','10/12','11/12','12/12'],topics:[
+ 'Interpretação III: organização textual, argumentos, ponto de vista, contexto e textos de gêneros variados. Teoria + questões.',
+ 'Raciocínio verbal, sequencial, espacial e temporal: padrões, ordenação e orientação. Teoria + exercícios.',
+ 'Normas, responsabilidades, competências, atuação e postura do auditor. Teoria + questões.',
+ 'Orçamento de obras I: etapas do orçamento, serviços, levantamento de quantitativos e estrutura de planilha. Teoria + exemplos.',
+ 'Geografia física II: vegetação, biomas, áreas de transição, hidrografia e litoral. Teoria + questões.',
+ 'Discursiva: estrutura de resposta técnica, introdução objetiva, desenvolvimento e conclusão; treino curto.' ]},
+ {week:'14–19 dez',dates:['14/12','15/12','16/12','17/12','18/12','19/12'],topics:[
+ 'Tipologia textual, gêneros, características, finalidade e adequação comunicativa. Teoria + questões.',
+ 'Números inteiros e racionais: operações, propriedades, expressões e problemas. Teoria + exercícios.',
+ 'Planejamento da auditoria: objetivos, escopo, critérios, matriz de planejamento e programa de trabalho. Teoria + questões.',
+ 'Orçamento de obras II: composição de custos, insumos, produtividade, mão de obra e equipamentos. Teoria + exemplos + questões.',
+ 'População maranhense: distribuição, dinâmica demográfica, migrações e indicadores. Teoria + questões.',
+ 'Simulado parcial 1: conhecimentos gerais (mini-simulado) + correção, análise e registro dos erros.' ]},
+ {week:'21–26 dez',dates:['21/12','22/12','23/12','24/12','25/12','26/12'],topics:[
+ 'Intertextualidade, contexto histórico, discurso e relações entre textos. Teoria + questões.',
+ 'Frações, decimais, potências e simplificação de expressões. Teoria + exercícios.',
+ 'Risco, materialidade, amostragem e matriz de risco: conceitos e aplicação no planejamento. Teoria + questões.',
+ 'Referenciais de preços: SINAPI/SICRO, pesquisa de mercado, fontes, datas e análise de preços. Teoria + exercícios.',
+ 'Urbanização, rede urbana, cidades e organização do espaço maranhense. Teoria + questões.',
+ 'Informática: Windows, sistema operacional, arquivos, pastas, extensões, organização e atalhos.' ]},
+ {week:'28 dez–2 jan',dates:['28/12','29/12','30/12','31/12','01/01','02/01'],topics:[
+ 'Denotação e conotação, sentidos contextuais, ambiguidade e figuras de linguagem. Teoria + questões.',
+ 'Múltiplos, divisores, divisibilidade e resolução de problemas. Teoria + exercícios.',
+ 'Controles internos, ambiente de controle, COSO e modelo das Três Linhas. Teoria + questões.',
+ 'BDI: componentes, cálculo, incidências, interpretação e análise de composição. Teoria + exercícios.',
+ 'Economia maranhense: agricultura, pecuária, extrativismo, indústria, comércio e serviços. Teoria + questões.',
+ 'Inglês Técnico: leitura de textos sobre construção, materiais, segurança e infraestrutura; vocabulário contextual.' ]},
+ {week:'4–9 jan',dates:['04/01','05/01','06/01','07/01','08/01','09/01'],topics:[
+ 'Ortografia oficial, emprego de letras, acentuação gráfica e regras principais. Teoria + questões.',
+ 'Razão, proporção, proporcionalidade direta e inversa e divisão proporcional. Teoria + exercícios.',
+ 'Técnicas e procedimentos de auditoria: inspeção, observação, entrevista, análise e confirmação. Teoria + questões.',
+ 'Encargos sociais, custos diretos e indiretos, composição e formação do preço. Teoria + exemplos + questões.',
+ 'Infraestrutura, transportes, portos, ferrovias, logística e integração regional. Teoria + questões.',
+ 'Discursiva: resposta técnica sobre planejamento, controle ou auditoria; treino de organização e fundamentação.' ]},
+ {week:'11–16 jan',dates:['11/01','12/01','13/01','14/01','15/01','16/01'],topics:[
+ 'Morfologia I: substantivo, artigo, adjetivo, numeral e pronomes; flexões e emprego. Teoria + questões.',
+ 'Regra de três simples e composta: proporcionalidade, unidades e problemas aplicados. Teoria + exercícios.',
+ 'Testes, evidências: suficiência, adequação, confiabilidade, avaliação e documentação. Teoria + questões.',
+ 'Cronograma físico, cronograma financeiro, cronograma físico-financeiro e planejamento da execução. Teoria + exercícios.',
+ 'Meio ambiente, sustentabilidade, problemas ambientais, conservação e impactos. Teoria + questões.',
+ 'Simulado parcial 2: matérias já estudadas, foco em interpretação, lógica e fundamentos de auditoria; correção.' ]},
+ {week:'18–23 jan',dates:['18/01','19/01','20/01','21/01','22/01','23/01'],topics:[
+ 'Morfologia II: verbos, advérbios, preposições, conjunções e interjeições; emprego no texto. Teoria + questões.',
+ 'Porcentagem: aumentos, descontos, variações sucessivas e aplicações. Teoria + exercícios.',
+ 'Papéis de trabalho, documentação, registro, rastreabilidade e organização das evidências. Teoria + questões.',
+ 'Licitações e contratação de obras: fases, documentos, critérios e regimes de execução. Teoria + questões.',
+ 'Povos indígenas, quilombolas, comunidades tradicionais e territorialidades. Teoria + questões.',
+ 'Informática: Word/editores de texto, formatação, revisão, tabelas e recursos de documentos.' ]},
+ {week:'25–30 jan',dates:['25/01','26/01','27/01','28/01','29/01','30/01'],topics:[
+ 'Formação e estrutura das palavras: derivação, composição, prefixos, sufixos e relações de sentido. Teoria + questões.',
+ 'Média aritmética simples e ponderada: cálculo, interpretação e problemas. Teoria + exercícios.',
+ 'Achados de auditoria: condição, critério, causa, efeito, evidência e recomendação. Teoria + questões.',
+ 'Regimes contratuais: empreitada por preço unitário/global, tarefa, integrada e semi-integrada; características e riscos. Teoria + questões.',
+ 'História do Maranhão: povos originários, ocupação inicial e colonização. Teoria + questões.',
+ 'Inglês Técnico: textos sobre projetos, desenho, orçamento, contratos e fiscalização; leitura e questões.' ]},
+ {week:'1–6 fev',dates:['01/02','02/02','03/02','04/02','05/02','06/02'],topics:[
+ 'Sintaxe I: frase, oração, período, sujeito, predicado e estrutura básica. Teoria + questões.',
+ 'Moda e mediana: conceitos, cálculo e interpretação em conjuntos de dados. Teoria + exercícios.',
+ 'Relatórios de auditoria: estrutura, conclusões, recomendações, comunicação e clareza. Teoria + questões.',
+ 'Fiscalização de contratos e execução: atribuições, registros, acompanhamento, diário e controle de qualidade. Teoria + questões.',
+ 'França Equinocial, invasões, colonização portuguesa e formação de São Luís. Teoria + questões.',
+ 'Discursiva/estudo de caso: análise de situação de obra, identificação de problema e proposta de providências.' ]},
+ {week:'8–13 fev',dates:['08/02','09/02','10/02','11/02','12/02','13/02'],topics:[
+ 'Sintaxe II: objeto, complemento, predicativo, adjuntos, aposto, vocativo e funções sintáticas. Teoria + questões.',
+ 'Amplitude, desvio médio e medidas de dispersão: conceito e aplicação. Teoria + exercícios.',
+ 'Monitoramento, acompanhamento das recomendações, avaliação de implementação e encerramento. Teoria + questões.',
+ 'Medições: quantitativos, memória de cálculo, boletins, ateste e conferência de serviços executados. Teoria + exercícios.',
+ 'Escravidão, economia colonial, algodão, comércio e transformações sociais. Teoria + questões.',
+ 'Simulado parcial 3: auditoria e engenharia (bloco de questões) + correção detalhada e caderno de erros.' ]},
+ {week:'15–20 fev',dates:['15/02','16/02','17/02','18/02','19/02','20/02'],topics:[
+ 'Coordenação e subordinação: relações entre orações, conectores, sentido e estrutura. Teoria + questões.',
+ 'Variância e desvio-padrão: cálculo, leitura, interpretação e problemas. Teoria + exercícios.',
+ 'Auditoria baseada em riscos: identificação, avaliação, priorização e planejamento de trabalhos. Teoria + questões.',
+ 'Medição e pagamento: critérios, conferência, serviços não executados, quantitativos e documentação. Teoria + questões.',
+ 'Independência, Maranhão no Império, adesão à Independência e formação provincial. Teoria + questões.',
+ 'Informática: Excel/planilhas, fórmulas, funções, gráficos, filtros e análise de dados; questões.' ]},
+ {week:'22–27 fev',dates:['22/02','23/02','24/02','25/02','26/02','27/02'],topics:[
+ 'Concordância verbal e nominal: regras, casos especiais e construção de frases. Teoria + questões.',
+ 'Tabelas: leitura, cruzamento de dados, comparações e interpretação de informações. Teoria + exercícios.',
+ 'Fraudes, irregularidades, sobrepreço e superfaturamento: conceitos, sinais, distinções e abordagem de auditoria. Teoria + questões.',
+ 'Alterações contratuais, aditivos, reajuste, repactuação, revisão e equilíbrio econômico-financeiro. Teoria + questões.',
+ 'Balaiada, conflitos sociais, Maranhão na República e transformações políticas. Teoria + questões.',
+ 'Inglês Técnico: materiais, métodos construtivos, quantidades, custos, prazos e vocabulário de auditoria; leitura.' ]},
+ {week:'1–6 mar',dates:['01/03','02/03','03/03','04/03','05/03','06/03'],topics:[
+ 'Regência verbal e nominal; crase: regras, casos obrigatórios, proibidos e facultativos. Teoria + questões.',
+ 'Gráficos: tipos, escalas, tendências, comparação e interpretação; revisão de estatística. Teoria + exercícios.',
+ 'Governança, accountability, compliance, auditoria operacional e avaliação de eficiência, eficácia e economicidade. Teoria + questões.',
+ 'Recebimento, encerramento, responsabilidade técnica, documentação e controles de entrega da obra. Teoria + questões.',
+ 'Século XX e contemporâneo: industrialização, projetos, mineração, urbanização, democratização e economia atual. Teoria + questões.',
+ 'Discursiva: estudo de caso integrado de auditoria de obra; estruturar achados, evidências, análise e recomendação.' ]},
+ {week:'8–13 mar',dates:['08/03','09/03','10/03','11/03','12/03','13/03'],topics:[
+ 'Pontuação, vozes verbais, tempos e modos, correlação verbal, coesão, conectores, reescrita e redação oficial; revisão e questões.',
+ 'Revisão integrada de raciocínio lógico, porcentagem, proporção e estatística; bateria de questões e correção.',
+ 'Revisão integrada de auditoria: planejamento, risco, controles, evidência, achados, relatório e monitoramento; questões.',
+ 'Auditoria de campo: inspeção, fotos, levantamentos, georreferenciamento/recursos remotos e confronto projeto–orçamento–execução; caso prático.',
+ 'Cultura e patrimônio: Bumba-meu-boi, Tambor de Crioula, Tambor de Mina, reggae, literatura e Maranhão contemporâneo; revisão geral.',
+ 'Simulado integrado de encerramento do conteúdo + análise por disciplina, erros prioritários e plano da reta final.' ]},
+ {week:'15–20 mar · Revisão final 1',dates:['15/03','16/03','17/03','18/03','19/03','20/03'],topics:[
+ 'Revisão de Português: interpretação, inferência, tipologia, morfologia e sintaxe; questões FCC e caderno de erros.',
+ 'Revisão de Matemática/Raciocínio: lógica, relações, porcentagem, proporção e estatística; questões mistas.',
+ 'Revisão de Auditoria: fundamentos, planejamento, risco, controles internos, técnicas e evidências; questões.',
+ 'Revisão de Auditoria de Obras: orçamento, quantitativos, SINAPI/SICRO, BDI, cronograma e custos; questões.',
+ 'Revisão Maranhão: geografia, população, economia, história e cultura; questões.',
+ 'Simulado parcial cronometrado + correção, classificação de erros e prioridades da próxima semana.' ]},
+ {week:'22–27 mar · Revisão final 2',dates:['22/03','23/03','24/03','25/03','26/03','27/03'],topics:[
+ 'Português: revisão dirigida de crase, regência, concordância, pontuação, reescrita e redação oficial; questões.',
+ 'Matemática/Raciocínio: revisão de temas com maior erro, gráficos, tabelas, medidas estatísticas e problemas; questões.',
+ 'Auditoria: achados, relatórios, monitoramento, fraudes, sobrepreço/superfaturamento, governança e auditoria operacional.',
+ 'Obras: fiscalização, medições, pagamentos, aditivos, recebimento, equilíbrio contratual e irregularidades; estudo de caso.',
+ 'Maranhão: revisão de temas fracos e bateria de questões; mapa mental de fatos históricos e geográficos.',
+ 'Discursiva/estudo de caso completo em tempo controlado; corrigir estrutura, fundamentação e objetividade.' ]},
+ {week:'29 mar–3 abr · Reta final',dates:['29/03','30/03','31/03','01/04','02/04','03/04'],topics:[
+ 'Revisão final de Português pelo caderno de erros e questões selecionadas; evitar conteúdo novo.',
+ 'Revisão final de Matemática/Raciocínio: fórmulas, procedimentos e erros recorrentes; questões curtas.',
+ 'Revisão final de Auditoria: conceitos, princípios, risco, evidência, achados e relatório; flash/revisão rápida.',
+ 'Revisão final de Auditoria de Obras: fórmulas, SINAPI/SICRO, BDI, medição, contrato e irregularidades; questões.',
+ 'Revisão leve de Maranhão, Informática e Inglês; pontos de maior dificuldade e leitura de resumos.',
+ 'Simulado final leve ou revisão estratégica, conferência de logística e descanso; sem sobrecarga na véspera.' ]}
+];
+const rotations=['Informática','Inglês Técnico','Discursiva / Estudo de Caso','Simulado parcial','Informática','Inglês Técnico','Discursiva / Estudo de Caso','Simulado parcial','Informática','Inglês Técnico','Discursiva / Estudo de Caso','Simulado parcial','Informática','Inglês Técnico','Discursiva / Estudo de Caso','Simulado parcial','Revisão final','Revisão final','Simulado final'];
+const key='guiaEstudoSTC_v5';let data={done:Array(6).fill(false),questions:0,notes:'',errors:[],reviews:[],cycle:'A',satRotation:'Informática',simulados:[],weekKey:''};
+try{const saved=localStorage.getItem(key)||localStorage.getItem('studyTrackerSTC_v4')||localStorage.getItem('studyTrackerSTC_v3');if(saved)data={...data,...JSON.parse(saved)}}catch(e){}
+const isoLocal=(d)=>{const x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`};
+const today=new Date();const mondayOf=(date)=>{const d=new Date(date);d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d};const start=new Date(START_DATE+'T00:00:00');const currentMonday=mondayOf(today);const startMonday=mondayOf(start);const weeks=Math.max(0,Math.floor((currentMonday-startMonday)/(7*86400000)));const weekKey=isoLocal(currentMonday);const autoCycle=weeks%2===0?'A':'B';const autoRotation=rotations[weeks%rotations.length];if(data.weekKey!==weekKey){data.done=Array(6).fill(false);data.questions=0;data.notes='';data.weekKey=weekKey;}data.cycle=autoCycle;data.satRotation=autoRotation;
+const tasksEl=document.getElementById('tasks');
+function getScheduleWeek(){return Math.min(schedule.length-1,Math.max(0,weeks));}
+function taskText(i){const wk=getScheduleWeek();const topic=schedule[wk].topics[i];const cycleLabel=(data.cycle==='A'?'Sessão de teoria':'Sessão de consolidação');return `${topic}
+${cycleLabel} — concluir, marcar e registrar questões.`;}
+function buildTasks(){tasksEl.innerHTML='';tasks.forEach((t,i)=>{const div=document.createElement('div');div.className='task';div.innerHTML=`<div class="day">${t.icon} ${t.day}</div><div class="subject">${i===5?(data.satRotation||t.subject):t.subject}</div><div class="small" style="white-space:pre-wrap;margin:6px 0">${taskText(i)}</div><label><input type="checkbox" data-i="${i}"><span>Marcar como concluído</span></label>`;tasksEl.appendChild(div)});document.querySelectorAll('[data-i]').forEach(cb=>cb.addEventListener('change',()=>{data.done[Number(cb.dataset.i)]=cb.checked;save();render()}));}
+function renderDetailedPlan(){const sel=document.getElementById('planWeek');const box=document.getElementById('detailPlan');sel.innerHTML=schedule.map((w,i)=>`<option value="${i}">Semana ${i+1} · ${w.week}</option>`).join('');sel.value=String(getScheduleWeek());const draw=()=>{const w=schedule[Number(sel.value)];box.innerHTML=w.topics.map((topic,i)=>`<div class="task"><div class="day">${w.dates[i]} · ${tasks[i].day}</div><div class="subject">${tasks[i].subject}</div><div style="white-space:pre-wrap">${topic}</div><p class="small" style="margin-bottom:0">Orientação: teoria/estudo dirigido + exemplos + questões; corrigir, registrar erros relevantes e agendar revisão.</p></div>`).join('')};sel.addEventListener('change',draw);draw();}
+renderDetailedPlan();buildTasks();document.getElementById('cycle').value=data.cycle;document.getElementById('satRotation').value=data.satRotation;document.getElementById('cycle').disabled=true;document.getElementById('satRotation').disabled=true;document.getElementById('cycle').title='Alternância automática baseada na data de início';document.getElementById('satRotation').title='Rodízio automático semanal';
+const planStatus=()=>{const t=new Date();const st=new Date(START_DATE+'T00:00:00'),ce=new Date(CONTENT_END+'T23:59:59'),ex=new Date(EXAM_DATE+'T00:00:00');let msg;if(t<st)msg=`Estudos começam em ${Math.ceil((st-t)/86400000)} dia(s). Semana inicial: Semana A — teoria.`;else if(t<=ce)msg=`Fase de conteúdo: semana ${weeks+1}/16 · Tema diário conforme cronograma detalhado · Sábado: ${data.satRotation}. Meta de concluir em 14/03/2027.`;else if(t<ex)msg='Fase de revisão final: sem conteúdo novo planejado. Priorizar revisões, simulados, caderno de erros e discursivas.';else msg='Data prevista da prova alcançada.';document.getElementById('phaseStatus').textContent=msg;};planStatus();
+const subjectsEl=document.getElementById('subjects');const subjectNames=[...new Set(tasks.map(t=>t.subject))];subjectNames.forEach((s,i)=>{const div=document.createElement('div');div.className='subject-progress';div.innerHTML=`<div class="row"><span>${s}</span><strong id="sp${i}">0%</strong></div><div class="progress"><div class="bar" id="sb${i}"></div></div>`;subjectsEl.appendChild(div)});
+function save(){try{localStorage.setItem(key,JSON.stringify(data));document.getElementById('saved').textContent='Salvo automaticamente neste dispositivo.'}catch(e){document.getElementById('saved').textContent='Não foi possível salvar localmente neste navegador.'}}
+function render(){const done=data.done.filter(Boolean).length;const p=Math.round(done/tasks.length*100);document.getElementById('pct').textContent=p+'%';document.getElementById('bar').style.width=p+'%';document.getElementById('weekCount').textContent=`${done} de ${tasks.length} atividades concluídas`;document.getElementById('doneCount').textContent=done;document.getElementById('qCount').textContent=Number(data.questions||0);document.getElementById('questions').value=data.questions||0;document.getElementById('notes').value=data.notes||'';document.querySelectorAll('[data-i]').forEach(cb=>{const i=Number(cb.dataset.i);cb.checked=!!data.done[i];cb.closest('.task').classList.toggle('done',!!data.done[i])});subjectNames.forEach((s,i)=>{const indices=tasks.map((t,j)=>t.subject===s?j:-1).filter(j=>j>=0);const sp=Math.round(indices.filter(j=>data.done[j]).length/indices.length*100);document.getElementById('sp'+i).textContent=sp+'%';document.getElementById('sb'+i).style.width=sp+'%'})}
+document.querySelectorAll('[data-i]').forEach(cb=>cb.addEventListener('change',()=>{data.done[Number(cb.dataset.i)]=cb.checked;save();render()}));document.getElementById('save').addEventListener('click',()=>{data.questions=Math.max(0,Number(document.getElementById('questions').value)||0);data.notes=document.getElementById('notes').value;save();render()});document.getElementById('export').addEventListener('click',()=>{data.questions=Math.max(0,Number(document.getElementById('questions').value)||0);data.notes=document.getElementById('notes').value;save();const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-guia-de-estudo-stc.json';a.click();URL.revokeObjectURL(a.href)});document.getElementById('reset').addEventListener('click',()=>{if(confirm('Reiniciar as marcações e registros desta semana?')){data={...data,done:Array(6).fill(false),questions:0,notes:''};save();render()}});render();
+
+const todayISO=()=>isoLocal(new Date());
+function esc(v){return String(v||'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));}
+function renderErrors(){const box=document.getElementById('errorsList');if(!data.errors.length){box.innerHTML='<p class="small">Ainda não há erros registrados.</p>';return;}box.innerHTML=data.errors.slice().reverse().map((e,idx)=>{const realIdx=data.errors.length-1-idx;return `<div class="entry"><h3>${esc(e.subject)} — ${esc(e.topic)}</h3><p><strong>Questão:</strong> ${esc(e.question)}</p><p><strong>Minha resposta:</strong> ${esc(e.myAnswer)} | <strong>Correta:</strong> ${esc(e.correct)}</p><p><strong>Motivo:</strong> ${esc(e.reason)}</p><p><strong>Aprendizado:</strong> ${esc(e.lesson)}</p><p class="small">Registrado: ${esc(e.date)} · Revisar: ${esc(e.reviewDate||'não agendada')}</p><div class="entry-actions"><button class="secondary" onclick="scheduleErrorReview(${realIdx})">Programar revisão</button><button class="danger" onclick="deleteError(${realIdx})">Excluir</button></div></div>`}).join('')}
+function renderReviews(){const box=document.getElementById('reviewsList');if(!data.reviews.length){box.innerHTML='<p class="small">Nenhuma revisão programada.</p>';return;}const sorted=data.reviews.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));box.innerHTML=sorted.map(r=>{const due=r.date<=todayISO();return `<div class="entry ${due?'review-due':''}"><h3>${esc(r.subject)} — ${esc(r.topic)}</h3><p><strong>${esc(r.type)}</strong> · ${esc(r.date)} ${due?'· <strong>Revisão vencida/para hoje</strong>':''}</p><div class="entry-actions"><button onclick="completeReview('${esc(r.id)}')">Marcar revisada</button><button class="secondary" onclick="deleteReview('${esc(r.id)}')">Excluir</button></div></div>`}).join('')}
+window.deleteError=(i)=>{data.errors.splice(i,1);save();renderErrors()};window.deleteReview=(id)=>{data.reviews=data.reviews.filter(r=>r.id!==id);save();renderReviews()};window.completeReview=(id)=>{const r=data.reviews.find(r=>r.id===id);if(r){r.completed=true;r.completedDate=todayISO();data.reviews=data.reviews.filter(x=>x.id!==id);save();renderReviews();}};
+window.scheduleErrorReview=(i)=>{const e=data.errors[i];if(!e)return;const d=e.reviewDate||todayISO();data.reviews.push({id:Date.now().toString(),subject:e.subject,topic:e.topic+' (caderno de erros)',date:d,type:'Revisão de erro'});save();renderReviews();alert('Revisão programada!');};
+document.getElementById('addError').addEventListener('click',()=>{const topic=document.getElementById('errTopic').value.trim();const question=document.getElementById('errQuestion').value.trim();const lesson=document.getElementById('errLesson').value.trim();if(!topic||!question||!lesson){alert('Preencha assunto, questão e aprendizado para registrar o erro.');return;}data.errors.push({subject:document.getElementById('errSubject').value,topic,question,myAnswer:document.getElementById('errMyAnswer').value,correct:document.getElementById('errCorrect').value,reason:document.getElementById('errReason').value,lesson,date:todayISO(),reviewDate:document.getElementById('errReviewDate').value});['errTopic','errQuestion','errMyAnswer','errCorrect','errLesson','errReviewDate'].forEach(id=>document.getElementById(id).value='');save();renderErrors();});
+document.getElementById('addReview').addEventListener('click',()=>{const topic=document.getElementById('revTopic').value.trim();const date=document.getElementById('revDate').value;if(!topic||!date){alert('Informe o assunto e a data da revisão.');return;}data.reviews.push({id:Date.now().toString(),subject:document.getElementById('revSubject').value,topic,date,type:document.getElementById('revType').value});document.getElementById('revTopic').value='';document.getElementById('revDate').value='';save();renderReviews();});
+renderErrors();renderReviews();save();
+
+function renderSimulados(){const box=document.getElementById('simList');if(!data.simulados||!data.simulados.length){box.innerHTML='<p class="small">Nenhum simulado registrado ainda.</p>';return;}box.innerHTML=data.simulados.slice().reverse().map((s,idx)=>{const actual=data.simulados.length-1-idx;const pct=s.total?Math.round(s.correct/s.total*100):0;return `<div class="entry"><h3>${esc(s.type)} — ${esc(s.focus||'Simulado geral')}</h3><p><strong>${esc(s.date||'Data não informada')}</strong> · ${s.correct}/${s.total} acertos · <strong>${pct}%</strong> · ${esc(s.time||'—')} min</p><p>${esc(s.notes||'Sem análise registrada.')}</p><div class="entry-actions"><button class="danger" onclick="deleteSim(${actual})">Excluir</button></div></div>`}).join('')}
+window.deleteSim=(i)=>{data.simulados.splice(i,1);save();renderSimulados()};
+document.getElementById('addSim').addEventListener('click',()=>{const total=Number(document.getElementById('simTotal').value||0),correct=Number(document.getElementById('simCorrect').value||0);if(!total||correct>total){alert('Informe o total de questões e acertos válidos.');return;}data.simulados.push({date:document.getElementById('simDate').value,type:document.getElementById('simType').value,total,correct,time:document.getElementById('simTime').value,focus:document.getElementById('simFocus').value,notes:document.getElementById('simNotes').value});['simDate','simTotal','simCorrect','simTime','simFocus','simNotes'].forEach(id=>document.getElementById(id).value='');save();renderSimulados()});renderSimulados();
+
+</script></body></html>
